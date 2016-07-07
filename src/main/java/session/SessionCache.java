@@ -17,8 +17,6 @@ import java.util.Map;
  */
 public class SessionCache implements Cache {
 
-    private static final String SESSION_KEY_LABEL = "SHIRO_SESSION_ID";
-
     private DefaultWebSessionManager sessionManager;
     private org.springframework.cache.Cache cache;
     private final CacheManager cacheManager;
@@ -93,20 +91,10 @@ public class SessionCache implements Cache {
         Map<Object, Object> data = getData();
         if (data == null) {
             data = new HashMap<>();
-            markCachedLocalForCurrentShiroSession(data);
         }
 
         data.put(key, value);
         putData(data);
-    }
-
-    /**
-     * 주어진 데이터를 현재 세션의 소유로 지정
-     *
-     * @param data 로컬에 저장된 세션 데이터
-     */
-    private void markCachedLocalForCurrentShiroSession(Map<Object, Object> data) {
-        data.put(SESSION_KEY_LABEL, getShiroSessionId());
     }
 
     private void putData(Map<Object, Object> data) {
@@ -131,7 +119,7 @@ public class SessionCache implements Cache {
 
     private Map<Object, Object> getData() {
         Map<Object, Object> localData = CacheDataHolder.getData();
-        if (localData != null && checkLocalDataForCurrentShiroSession(localData)) {
+        if (localData != null) {
             return localData;
         }
 
@@ -143,16 +131,6 @@ public class SessionCache implements Cache {
         localData = (Map<Object, Object>) valueWrapper.get();
         CacheDataHolder.set(localData);
         return localData;
-    }
-
-    /**
-     * 로컬에 저장된 세션 데이터가 현재 세션의 소유가 맞는지 확인
-     *
-     * @param data 로컬에 저장된 세션 데이터
-     * @return
-     */
-    private boolean checkLocalDataForCurrentShiroSession(Map<Object, Object> data) {
-        return getShiroSessionId().equals(data.get(SESSION_KEY_LABEL));
     }
 
     private Serializable getShiroSessionId() {
