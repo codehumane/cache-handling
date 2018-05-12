@@ -1,0 +1,20 @@
+version 'unspecified'
+
+ext {
+    springVersion = '3.2.13.RELEASE'
+    servletVersion = '3.0.1'
+    shiroVersion = '1.2.3'
+    guavaVersion = '17.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile "junit:junit:4.11"
+    compile "javax.servlet:javax.servlet-api:${servletVersion}"
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.apache.shiro:shiro-spring:${shiroVersion}"
+    compile "com.google.guava:guava:${guavaVersion}"
+}

@@ -6,7 +6,6 @@ import java.io.Serializable;
  * 정점
  *
  * @author chogh1211
- *
  */
 public class CacheGraphVertex<T> implements Serializable {
 

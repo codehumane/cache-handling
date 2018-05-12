@@ -6,17 +6,11 @@ import org.springframework.cache.Cache;
 import java.io.Serializable;
 import java.util.List;
 
-//import org.springframework.cache.Cache;
-//import org.springframework.cache.Cache.ValueWrapper;
-//
-//import com.google.common.collect.Lists;
-
 /**
  * Cache를 그래프 형태로 관리
- *
+ * <p>
  * edge: 간선 <br/>
  * vertex: 정점 (노드) <br/>
- *
  */
 public class CacheGraph<T> implements Serializable {
 

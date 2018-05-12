@@ -1,22 +1,12 @@
-ext {
-    springVersion = '3.2.13.RELEASE'
-    servletVersion = '3.0.1'
-    shiroVersion = '1.2.3'
-    guavaVersion = '17.0'
-}
-
 repositories {
     mavenCentral()
-    maven { url "https://plugins.gradle.org/m2/" }
 }
 
-apply plugin: 'java'
-apply plugin: 'groovy'
+allprojects {
 
-dependencies {
-    testCompile "junit:junit:4.11"
-    compile "javax.servlet:javax.servlet-api:${servletVersion}"
-    compile "org.springframework:spring-context:${springVersion}"
-    compile "org.apache.shiro:shiro-spring:${shiroVersion}"
-    compile "com.google.guava:guava:${guavaVersion}"
+    apply plugin: 'java'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    compileJava.options.encoding = 'UTF-8'
 }

@@ -1,1 +1,3 @@
 rootProject.name = 'spring-in-practice'
+include 'shiro-cache'
+
