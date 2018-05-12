@@ -7,24 +7,27 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+@Component
 public class CacheGraphClient {
 
-    @Autowired(required = false)
-    DefaultWebSessionManager sessionManager;
-
-    @Autowired
-    private CacheManager cacheManager;
-
+    private final DefaultWebSessionManager sessionManager;
+    private final CacheManager cacheManager;
     private final String cacheRegionName;
     private CacheGraph<Serializable> graph;
 
-    public CacheGraphClient(String cacheRegionName) {
+    public CacheGraphClient(DefaultWebSessionManager sessionManager,
+                            CacheManager cacheManager,
+                            String cacheRegionName) {
+
+        this.sessionManager = sessionManager;
+        this.cacheManager = cacheManager;
         this.cacheRegionName = cacheRegionName;
     }
 
@@ -65,7 +68,7 @@ public class CacheGraphClient {
      * 주어진 노드를 연결
      *
      * @param from 출발 노드
-     * @param to 도착 노드
+     * @param to   도착 노드
      */
     public void addLink(Serializable from, Serializable to) {
         graph.addEdge(from, to);
