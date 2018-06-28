@@ -12,6 +12,8 @@
 >
 > 2. An attempt was made to read past the end of data consumable by a class-defined readObject or readExternal method. In this case, the OptionalDataException’s eof field is set to true, and the length field is set to 0.
 
+- 이를 실험해 볼 수 있는 코드는 [여기](https://github.com/codehumane/troubleshoot-java/blob/master/optional-data-exception/src/OptionalDataExceptionTest.java)에 등록함.
+
 ## 원인
 
 1. HTTP 요청이 들어올 때 마다, `SimpleSession` 업데이트가 발생함.
@@ -20,7 +22,8 @@
 4. 이 때 마다 `SimpleSession`의 `lastAccessTime` 필드가 현재시간으로 갱신됨.
 5. 그리고 이를 저장소(이 경우에는 캐시 서버)에 반영하기 위해 write(serialization) 발생함.
 6. 자세한 내용은 [`AbstractShiroFilter`의 `updateSessionLastAccessTime`](https://shiro.apache.org/static/1.2.3/apidocs/src-html/org/apache/shiro/web/servlet/AbstractShiroFilter.html#line.307)을 참고.
-7. 당시의 어플리케이션 구조상 동일한 세션 데이터에 대한 write 도중 read가 발생할 수 있음.
+7. 당시의 어플리케이션은 동일한 세션을 사용하는 여러 개의 요청을 동시에 처리해야 하는 구조였음.
+8. 따라서, 동일한 세션 데이터에 대한 write 도중 read가 발생할 수 있음.
 
 ## 해결
 
